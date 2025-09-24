@@ -3,6 +3,22 @@
     {
       "text": {
         "title": "THE ODE ISLANDS",
+        "subtitle": "A Mixed Reality Voyage To Find Freedom"
+      },
+      "ctaStart": "Begin Journey",
+      "video": {
+        "url": "1-crawling",
+        "width": 1920,
+        "height": 1080
+      },
+      "theme": {
+        "mix": "exclusion",
+        "title": "#37ffce"
+      }
+    },
+    {
+      "text": {
+        "title": "THE ODE ISLANDS",
         "subtitle": "A New Beginning"
       },
       "ctaStart": "Are you ready to start your journey?",
@@ -53,14 +69,6 @@
     {
       "video": {
         "url": "OdeNew1-6",
-        "width": 1080,
-        "height": 1920,
-        "audio": true
-      }
-    },
-    {
-      "video": {
-        "url": "OdeNew1-7",
         "width": 1080,
         "height": 1920,
         "audio": true
