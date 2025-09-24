@@ -1,13 +1,16 @@
-# Video Transcoder with Google Cloud Storage
+# Adaptive Video Transcoder with Automated Workflow
 
-This transcoder processes video files into HLS format and optionally uploads them to Google Cloud Storage.
+This transcoder processes video files into adaptive streaming HLS format with multiple quality profiles and optionally uploads them to Google Cloud Storage. It supports both manual batch processing and automated file watching.
 
 ## Features
 
-- Converts video files to HLS format (`.m3u8` playlist + `.ts` segments)
-- Generates poster images from videos
-- Uploads processed videos to Google Cloud Storage
-- Supports batch processing of multiple videos
+- **Adaptive Streaming**: Generates multiple quality profiles (240p, 360p, 480p, 720p, 1080p) optimized for different devices and connection speeds
+- **Mobile Optimization**: Intelligent profile selection based on source video resolution to avoid upscaling
+- **Automated Workflow**: File system watcher automatically processes MP4s when added to the input folder
+- **Batch Processing**: Process multiple videos manually
+- **Poster Generation**: Creates thumbnail images from videos
+- **Google Cloud Storage**: Optional upload to GCS with organized folder structure
+- **Progress Tracking**: Real-time progress monitoring and detailed logging
 
 ## Setup
 
@@ -63,18 +66,27 @@ Your service account needs the following permissions:
 
 ## Usage
 
-### 1. Add Video Files
+### Mode 1: Automated File Watching (Recommended)
 
-Place your video files in the `./in` directory:
+The watcher automatically processes any MP4 files added to the `./in` directory:
 
 ```bash
-cp your-video.mp4 ./in/
+# Development mode (auto-reload watcher)
+npm run dev:watch
+
+# Production mode
+npm run build
+npm run start:watch
 ```
 
-### 2. Run Transcoder
+**Usage**: Simply drop MP4 files into the `./in` folder and they'll be automatically processed with adaptive streaming profiles.
+
+### Mode 2: Manual Batch Processing
+
+Process all existing files in the input directory:
 
 ```bash
-# Development mode (with auto-reload)
+# Development mode
 npm run dev
 
 # Production mode
@@ -82,21 +94,33 @@ npm run build
 npm start
 ```
 
-### 3. Output
+### Output Structure
 
-- **Local**: Processed videos are saved in `./out/[video-name]/`
-- **GCS**: Videos are uploaded to `gs://your-bucket/vid/[video-name]/`
+Each processed video creates an organized directory with adaptive streaming variants:
 
-## File Structure
+- **Local**: `./out/[video-name]/`
+  - `master.m3u8` - Master playlist for adaptive streaming
+  - `240p/`, `360p/`, `480p/`, `720p/`, `1080p/` - Quality variant folders
+  - `poster.jpg` - Generated thumbnail
+- **GCS**: `gs://your-bucket/vid/[video-name]/` (same structure)
+
+## Adaptive Streaming Structure
 
 ```
-./in/                    # Input video files
-./out/                   # Output HLS files (local)
+./in/                    # Input video files (MP4s)
+./out/                   # Output adaptive streaming files
 ├── video1/
-│   ├── master.m3u8     # HLS playlist
-│   ├── segment-000.ts  # Video segments
-│   ├── segment-001.ts
-│   └── poster.jpg      # Generated thumbnail
+│   ├── master.m3u8     # Master playlist (adaptive streaming)
+│   ├── 240p/
+│   │   ├── playlist.m3u8
+│   │   └── segment_*.ts
+│   ├── 360p/
+│   │   ├── playlist.m3u8
+│   │   └── segment_*.ts
+│   ├── 720p/
+│   │   ├── playlist.m3u8
+│   │   └── segment_*.ts
+│   └── poster.jpg
 └── video2/
     └── ...
 
@@ -104,8 +128,7 @@ npm start
 gs://your-bucket/vid/
 ├── video1/
 │   ├── master.m3u8
-│   ├── segment-000.ts
-│   ├── segment-001.ts
+│   ├── 240p/, 360p/, 720p/, etc.
 │   └── poster.jpg
 └── video2/
     └── ...
@@ -134,22 +157,40 @@ gs://your-bucket/vid/
 2. **Supported formats**: `.mp4`, `.avi`, `.mov`, `.mkv`, `.webm`, `.flv`, `.wmv`
 3. **Check logs**: Error details are printed to console
 
-## Example Usage
+## Quick Start Examples
+
+### Automated Processing (Recommended)
 
 ```bash
-# 1. Add video files
-cp my-video.mp4 ./in/
-
-# 2. Configure GCS (optional)
+# 1. Configure GCS (optional)
 export ENABLE_GCS_UPLOAD=true
 export GCS_BUCKET_NAME=odeislands
 export GOOGLE_APPLICATION_CREDENTIALS=./service-account.json
 
-# 3. Run transcoder
+# 2. Start the automated watcher
+npm run dev:watch
+
+# 3. Add video files (in another terminal or file manager)
+cp my-video.mp4 ./in/
+# The video will be automatically processed with adaptive streaming!
+```
+
+### Manual Batch Processing
+
+```bash
+# 1. Add video files first
+cp video1.mp4 video2.mp4 ./in/
+
+# 2. Process all videos at once
 npm run dev
 ```
 
-The transcoded video will be:
-- Saved locally: `./out/my-video/master.m3u8`
-- Uploaded to GCS: `gs://odeislands/vid/my-video/master.m3u8`
-- Accessible at: `https://storage.googleapis.com/odeislands/vid/my-video/master.m3u8`
+## Adaptive Streaming Output
+
+Each processed video generates:
+- **Master playlist**: `./out/my-video/master.m3u8` - Entry point for adaptive streaming
+- **Multiple qualities**: Automatically selected based on source resolution
+- **Mobile optimized**: Lower bitrates and resolutions for better mobile experience
+- **GCS URLs**: `https://storage.googleapis.com/odeislands/vid/my-video/master.m3u8`
+
+Players will automatically choose the best quality based on device capabilities and connection speed.

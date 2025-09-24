@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/app.js",
+    "start:watch": "node build/watcher.js",
     "dev": "npx tsx src/app.ts",
+    "dev:watch": "npx tsx src/watcher.ts",
     "prettier": "npx prettier --write \"**/*.ts\"",
     "build": "tsc"
   },
@@ -15,7 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^7.13.0",
+    "chokidar": "^4.0.1",
     "D": "^1.0.0",
+    "dotenv": "^17.2.2",
     "fluent-ffmpeg": "^2.1.3",
     "moment": "^2.30.1",
     "ts-node": "^10.9.2",
