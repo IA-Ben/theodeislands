@@ -14,7 +14,8 @@
       },
       "theme": {
         "mix": "exclusion",
-        "title": "#37ffce"
+        "title": "#37ffce",
+        "ctaStart": "#37ffce"
       }
     },
     {
