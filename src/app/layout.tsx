@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import DevIndicator from "@/components/DevIndicator";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -30,7 +31,10 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
       </head>
-      <body className={`${manrope.variable} antialiased`}>{children}</body>
+      <body className={`${manrope.variable} antialiased`}>
+        <DevIndicator />
+        {children}
+      </body>
     </html>
   );
 }

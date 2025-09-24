@@ -1,0 +1,453 @@
+{
+  "chapter-1": [
+    {
+      "text": {
+        "title": "THE ODE ISLANDS",
+        "subtitle": "A Mixed Reality Voyage To Find Freedom"
+      },
+      "ctaStart": "Begin Journey",
+      "video": {
+        "url": "1-crawling",
+        "width": 1920,
+        "height": 1080
+      },
+      "theme": {
+        "mix": "exclusion",
+        "title": "#37ffce"
+      }
+    },
+    {
+      "text": {
+        "subtitle": "A New Beginning"
+      },
+      "ctaStart": "Are you ready to start your journey?",
+      "video": {
+        "url": "OdeNew1-1",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "mix": "exclusion",
+        "title": "#37ffce",
+        "ctaStart": "#37ffce"
+      }
+    },
+    {
+      "video": {
+        "url": "OdeNew1-2",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "OdeNew1-3",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "OdeNew1-4",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "OdeNew1-5",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "OdeNew1-6",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "OdeNew1-7",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "NEXT UP"
+      },
+      "cta": {
+        "title": "Continue to Chapter 2",
+        "url": "/chapter-2"
+      },
+      "theme": {
+        "background": "#FBBAE0",
+        "subtitle": "#000",
+        "cta": "#E9F3E6"
+      }
+    }
+  ],
+  "chapter-2": [
+    {
+      "text": {
+        "title": "THE ODE ISLANDS",
+        "subtitle": "A Mixed Reality Voyage To Find Freedom"
+      },
+      "ctaStart": "Begin Journey",
+      "video": {
+        "url": "1-crawling",
+        "width": 1920,
+        "height": 1080
+      },
+      "theme": {
+        "mix": "exclusion",
+        "title": "#37ffce"
+      }
+    },
+    {
+      "text": {
+        "subtitle": "ONCE...",
+        "description": "...upon a time, on a distant island, there existed a perfect balance of energies. The island was home to two magical beings, the Orns, who embodied all happy thoughts, and the Nors, who carried the negative ones. For a long time they lived in harmony, each balancing each other, ensuring the island remained a place of peace"
+      },
+      "video": {
+        "url": "1-poem1",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.4)",
+        "subtitle": "#FBBAE0"
+      }
+    },
+    {
+      "text": {
+        "subtitle": "BUT...",
+        "description": "...one day, a great storm arose, fierce and unrelenting. Slowly, the Nors began to take over, turning the once joyful Orns into shadows of negativity. The island's balance tipped and hope began to fade Just when it seemed that all was lost a young girl washed ashore. She was fragile, yet radiant carrying an inner light of innocence and joy."
+      },
+      "video": {
+        "url": "1-poem2",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.4)",
+        "subtitle": "#FBBAE0"
+      }
+    },
+    {
+      "text": {
+        "subtitle": "THE...",
+        "description": "...few remaining Orns felt a spark of hope and miraculously the Nors around her began to transform back into Orns. Seeing the power of her happiness and beauty the Nors and Orns worked together using the girl's presence to rebuild the island."
+      },
+      "video": {
+        "url": "1-poem3",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.4)",
+        "subtitle": "#FBBAE0"
+      }
+    },
+    {
+      "text": {
+        "subtitle": "SLOWLY",
+        "description": "...balance was restored and the island returned to a place of unity and joy where both positive and negative thoughts could coexist in harmony once again."
+      },
+      "video": {
+        "url": "1-poem4",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.6)",
+        "subtitle": "#FBBAE0"
+      }
+    },
+    {
+      "text": {
+        "subtitle": "NEXT UP"
+      },
+      "cta": {
+        "title": "Continue to Chapter 3",
+        "url": "/chapter-3"
+      },
+      "theme": {
+        "background": "#FBBAE0",
+        "subtitle": "#000",
+        "cta": "#E9F3E6"
+      }
+    }
+  ],
+  "chapter-3": [
+    {
+      "text": {
+        "title": "THE ODE ISLAND",
+        "cta": "Start Chapter"
+      },
+      "image": {
+        "url": "1-womb.jpg",
+        "width": 1920,
+        "height": 1080
+      },
+      "theme": {
+        "mix": "difference",
+        "title": "#37ffce"
+      }
+    },
+    {
+      "text": {
+        "description": "I felt lucky compared to the other girls, confident, but the parts that I didn't like, I obsessed over : my hooded eyes, my breasts, my neck. Why could they not be perfect?"
+      }
+    },
+    {
+      "video": {
+        "url": "1-ornaghintro",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-ticket",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "1-ornaghtech",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "NEXT UP"
+      },
+      "cta": {
+        "title": "Continue to Chapter 4",
+        "url": "/chapter-4"
+      },
+      "theme": {
+        "background": "#FBBAE0",
+        "subtitle": "#000",
+        "cta": "#E9F3E6"
+      }
+    }
+  ],
+  "chapter-4": [
+    {
+      "text": {
+        "title": "WELCOME TO THE ODE ISLANDS",
+        "cta": "Start Chapter"
+      },
+      "image": {
+        "url": "3-islands.jpg",
+        "width": 1080,
+        "height": 1920
+      },
+      "theme": {
+        "mix": "difference",
+        "title": "#37ffce"
+      }
+    },
+    {
+      "text": {
+        "description": "Who am I? What is this place? Where am I? How can it be so beautiful? Beautiful Beautiful ….Hippokiss"
+      }
+    },
+    {
+      "video": {
+        "url": "3-welcome",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-map",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-trailer",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-statue",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-running",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "Behind-the-Scenes of the Ode Islands"
+      },
+      "theme": {
+        "background": "#37ffce",
+        "subtitle": "#000",
+        "invert": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-mocap",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "NEXT UP"
+      },
+      "cta": {
+        "title": "Continue to Chapter 5",
+        "url": "/chapter-5"
+      },
+      "theme": {
+        "background": "#FBBAE0",
+        "subtitle": "#000",
+        "cta": "#E9F3E6"
+      }
+    }
+  ],
+  "chapter-5": [
+    {
+      "text": {
+        "title": "DOMESTIC BLISS",
+        "cta": "Start Chapter"
+      },
+      "image": {
+        "url": "4-room.jpg",
+        "width": 1080,
+        "height": 1920
+      },
+      "theme": {
+        "mix": "difference",
+        "title": "#37ffce"
+      }
+    },
+    {
+      "text": {
+        "description": "How was your day, my darling mannequin man?"
+      }
+    },
+    {
+      "video": {
+        "url": "4-bliss",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "4-ads",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-trailer",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-statue",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-running",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "Behind-the-Scenes of the Ode Islands"
+      },
+      "theme": {
+        "background": "#37ffce",
+        "subtitle": "#000",
+        "invert": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-mocap",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "COMING SOON"
+      },
+      "theme": {
+        "background": "#FBBAE0",
+        "subtitle": "#000",
+        "cta": "#E9F3E6"
+      }
+    }
+  ]
+}

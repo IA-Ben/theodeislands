@@ -4,13 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import ClientCard from "@/components/ClientCard";
 import Footer from "@/components/Footer";
-import data from "../data/ode-islands.json";
 
 type ChapterData = {
   [key: string]: CardData[];
 };
-
-const chapterData: ChapterData = data as ChapterData;
 
 export default function ChapterPage() {
   const params = useParams();
@@ -19,18 +16,64 @@ export default function ChapterPage() {
 
   const [interacted, setInteracted] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
+  const [chapterData, setChapterData] = useState<ChapterData>({});
+  const [loading, setLoading] = useState<boolean>(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Get cards for current chapter
   const chapterNumber = chapterId.replace("chapter-", "");
   const cards: CardData[] = chapterData[`chapter-${chapterNumber}`] || [];
 
+  // Load data based on environment
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Check environment
+        const isDevelopment = process.env.NODE_ENV === 'development' ||
+                             window.location.hostname.includes('git-development') ||
+                             window.location.search.includes('dev=true');
+
+        let data;
+        if (isDevelopment) {
+          try {
+            // Try to load development data
+            const response = await fetch('/data/ode-islands.dev.json');
+            if (response.ok) {
+              data = await response.json();
+              console.log('🚀 Loaded development data');
+            } else {
+              throw new Error('Dev data not found');
+            }
+          } catch (error) {
+            // Fallback to production data
+            const response = await fetch('/data/ode-islands.json');
+            data = await response.json();
+            console.log('📱 Loaded production data (fallback)');
+          }
+        } else {
+          // Production - load production data
+          const response = await fetch('/data/ode-islands.json');
+          data = await response.json();
+          console.log('📱 Loaded production data');
+        }
+
+        setChapterData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to load chapter data:', error);
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
   // Redirect to chapter 1 if invalid chapter
   useEffect(() => {
-    if (cards.length === 0 && chapterNumber !== "1") {
+    if (!loading && cards.length === 0 && chapterNumber !== "1") {
       router.push("/chapter-1");
     }
-  }, [cards.length, chapterNumber, router]);
+  }, [loading, cards.length, chapterNumber, router]);
 
   const scrollToCard = useCallback((cardIndex: number) => {
     if (containerRef.current) {
@@ -106,8 +149,25 @@ export default function ChapterPage() {
     }
   }, [index, cards.length, interacted]);
 
+  if (loading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p>Loading experience...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (cards.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <p>Chapter not found</p>
+        </div>
+      </div>
+    );
   }
 
   return (
