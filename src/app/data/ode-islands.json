@@ -75,6 +75,14 @@
       }
     },
     {
+      "video": {
+        "url": "OdeNew1-7",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
       "text": {
         "subtitle": "NEXT UP"
       },
