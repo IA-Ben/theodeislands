@@ -176,6 +176,42 @@ Add `?dev=true` to any URL to force development mode:
 - **Visual indicators**: Always know which environment you're in
 - **Automatic fallbacks**: Dev data failures fall back to production
 - **Preview URLs**: Test changes before going live
+- **Cache-busting**: Automatic fresh data loading with manual override options
+
+## 🔄 Cache Management
+
+### Automatic Cache-Busting
+The app automatically handles caching issues:
+- **Development**: Always fetches fresh data with timestamp parameters
+- **Production**: Uses build timestamps to invalidate cache on deployments
+- **Fallbacks**: Static imports as backup if fetch fails
+
+### Manual Cache Clearing (For Team)
+If you're not seeing updates, use these methods:
+
+#### Method 1: URL Parameters
+Add these to any URL to force fresh data:
+- `?debug=cache` - Shows cache debug panel
+- `?dev=true` - Forces development mode with fresh data
+- `?cacheBust=123` - Bypasses cache (any number)
+
+#### Method 2: Cache Debug Panel
+1. Add `?debug=cache` to your URL
+2. Click **"CLEAR CACHE & RELOAD"** button
+3. Or use **"HARD REFRESH"** for browser cache clear
+
+#### Method 3: Browser Methods
+- **Hard Refresh**: Cmd/Ctrl + Shift + R
+- **Force Refresh**: Cmd/Ctrl + F5
+- **Clear Site Data**: Browser Developer Tools > Application > Storage
+
+### Console Logging
+Watch browser console for cache status:
+```
+🔄 Fetching fresh data: /data/ode-islands.dev.json?v=1703123456789
+✅ Successfully loaded ode-islands.dev.json with cache-buster
+🚀 Loaded development data with cache-busting
+```
 
 ## 📝 Best Practices
 

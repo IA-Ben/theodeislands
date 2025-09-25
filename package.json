@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "dev:production": "node scripts/dev-switch.js prod && next dev --turbopack",
     "dev:development": "node scripts/dev-switch.js dev && next dev --turbopack",
-    "build": "next build",
+    "build": "NEXT_PUBLIC_BUILD_TIME=$(date +%s) next build",
     "start": "next start",
     "lint": "next lint",
     "transcode": "cd resources/transcoder && npm start",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import DevIndicator from "@/components/DevIndicator";
+import CacheDebugger from "@/components/CacheDebugger";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -33,6 +34,7 @@ export default function RootLayout({
       </head>
       <body className={`${manrope.variable} antialiased`}>
         <DevIndicator />
+        <CacheDebugger />
         {children}
       </body>
     </html>
