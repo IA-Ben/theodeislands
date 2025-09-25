@@ -186,4 +186,39 @@ Add `?dev=true` to any URL to force development mode:
 5. **Merge to `development` branch before `main`**
 6. **Use feature branches for all changes**
 
+## 🛣️ Product Roadmap
+
+### Upcoming Features
+
+#### 🎥 Video Analysis Pipeline
+**Status**: Planned
+**Priority**: Medium
+
+Enhance the existing video transcoding pipeline with AI-powered content analysis:
+
+**Features:**
+- **Visual Content Identification**: Automatically detect and tag visual elements (faces, objects, scenes, colors, movement patterns)
+- **Accessibility Descriptions**: Generate detailed audio descriptions for visually impaired users
+- **Searchable Metadata**: Extract keywords, themes, and content tags for search functionality
+- **Content Categorization**: Automatic classification of video content type (narrative, behind-scenes, character moments)
+
+**Technical Approach:**
+- Integrate with Google Cloud Video Intelligence API or similar service
+- Add frame extraction at key moments for analysis
+- Generate structured metadata JSON alongside video files
+- Extend existing GCS upload pipeline to include metadata
+- Create accessibility-compliant video descriptions following WCAG guidelines
+
+**Benefits:**
+- Enhanced searchability across video content
+- Improved accessibility compliance
+- Better content organization and discovery
+- Automated content tagging reduces manual work
+
+**Implementation Notes:**
+- Extend existing `adaptive-transcoder.ts` pipeline
+- Add new analysis step after transcoding, before GCS upload
+- Store metadata in structured format for easy integration
+- Consider cost implications of AI analysis services
+
 This pipeline ensures you can experiment safely while maintaining a stable production environment! 🚀
