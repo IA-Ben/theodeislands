@@ -4,21 +4,26 @@
 
 import productionData from '@/app/data/ode-islands.json';
 
+// Type definition for our chapter data structure
+type ChapterData = {
+  [key: string]: any[];
+};
+
 // Dynamic import for development data to avoid bundling in production
-const loadDevelopmentData = async () => {
+const loadDevelopmentData = async (): Promise<ChapterData> => {
   try {
     const devData = await import('@/app/data/ode-islands.dev.json');
-    return devData.default;
+    return devData.default as ChapterData;
   } catch (error) {
     console.warn('Development data not found, falling back to production data');
-    return productionData;
+    return productionData as ChapterData;
   }
 };
 
 /**
  * Load the appropriate data based on environment
  */
-export async function getOdeIslandsData() {
+export async function getOdeIslandsData(): Promise<ChapterData> {
   const isDevelopment = process.env.NODE_ENV === 'development' ||
                        process.env.VERCEL_ENV === 'preview' ||
                        process.env.NEXT_PUBLIC_DEV_MODE === 'true';
@@ -27,7 +32,7 @@ export async function getOdeIslandsData() {
     return await loadDevelopmentData();
   }
 
-  return productionData;
+  return productionData as ChapterData;
 }
 
 /**
