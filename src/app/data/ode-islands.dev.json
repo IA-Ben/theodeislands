@@ -51,6 +51,23 @@
       }
     },
     {
+      "text": {
+        "subtitle": "ONCE...",
+        "description": "...upon a time, on a distant island, there existed a perfect balance of energies. The island was home to two magical beings, the Orns, who embodied all happy thoughts, and the Nors, who carried the negative ones. For a long time they lived in harmony, each balancing each other, ensuring the island remained a place of peace"
+      },
+      "video": {
+        "url": "1-poem1",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.4)",
+        "subtitle": "#FBBAE0"
+      }
+    },
+    {
       "video": {
         "url": "OdeNew1-3",
         "width": 1080,
@@ -59,11 +76,45 @@
       }
     },
     {
+      "text": {
+        "subtitle": "BUT...",
+        "description": "...one day, a great storm arose, fierce and unrelenting. Slowly, the Nors began to take over, turning the once joyful Orns into shadows of negativity. The island's balance tipped and hope began to fade Just when it seemed that all was lost a young girl washed ashore. She was fragile, yet radiant carrying an inner light of innocence and joy."
+      },
+      "video": {
+        "url": "1-poem2",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.4)",
+        "subtitle": "#FBBAE0"
+      }
+    },
+    {
       "video": {
         "url": "OdeNew1-4",
         "width": 1080,
         "height": 1920,
         "audio": true
+      }
+    },
+    {
+      "text": {
+        "subtitle": "THE...",
+        "description": "...few remaining Orns felt a spark of hope and miraculously the Nors around her began to transform back into Orns. Seeing the power of her happiness and beauty the Nors and Orns worked together using the girl's presence to rebuild the island."
+      },
+      "video": {
+        "url": "1-poem3",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      },
+      "theme": {
+        "shadow": true,
+        "overlay": "rgba(0, 0, 0, 0.4)",
+        "subtitle": "#FBBAE0"
       }
     },
     {
@@ -88,57 +139,6 @@
         "width": 1080,
         "height": 1920,
         "audio": true
-      }
-    },
-    {
-      "text": {
-        "subtitle": "ONCE...",
-        "description": "...upon a time, on a distant island, there existed a perfect balance of energies. The island was home to two magical beings, the Orns, who embodied all happy thoughts, and the Nors, who carried the negative ones. For a long time they lived in harmony, each balancing each other, ensuring the island remained a place of peace"
-      },
-      "video": {
-        "url": "1-poem1",
-        "width": 1080,
-        "height": 1920,
-        "audio": true
-      },
-      "theme": {
-        "shadow": true,
-        "overlay": "rgba(0, 0, 0, 0.4)",
-        "subtitle": "#FBBAE0"
-      }
-    },
-    {
-      "text": {
-        "subtitle": "BUT...",
-        "description": "...one day, a great storm arose, fierce and unrelenting. Slowly, the Nors began to take over, turning the once joyful Orns into shadows of negativity. The island's balance tipped and hope began to fade Just when it seemed that all was lost a young girl washed ashore. She was fragile, yet radiant carrying an inner light of innocence and joy."
-      },
-      "video": {
-        "url": "1-poem2",
-        "width": 1080,
-        "height": 1920,
-        "audio": true
-      },
-      "theme": {
-        "shadow": true,
-        "overlay": "rgba(0, 0, 0, 0.4)",
-        "subtitle": "#FBBAE0"
-      }
-    },
-    {
-      "text": {
-        "subtitle": "THE...",
-        "description": "...few remaining Orns felt a spark of hope and miraculously the Nors around her began to transform back into Orns. Seeing the power of her happiness and beauty the Nors and Orns worked together using the girl's presence to rebuild the island."
-      },
-      "video": {
-        "url": "1-poem3",
-        "width": 1080,
-        "height": 1920,
-        "audio": true
-      },
-      "theme": {
-        "shadow": true,
-        "overlay": "rgba(0, 0, 0, 0.4)",
-        "subtitle": "#FBBAE0"
       }
     },
     {
