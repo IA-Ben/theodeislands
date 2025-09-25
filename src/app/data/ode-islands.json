@@ -35,6 +35,15 @@
     },
     {
       "video": {
+        "url": "1-ornaghintro",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "video": {
         "url": "OdeNew1-2",
         "width": 1080,
         "height": 1920,
@@ -79,38 +88,6 @@
         "width": 1080,
         "height": 1920,
         "audio": true
-      }
-    },
-    {
-      "text": {
-        "subtitle": "NEXT UP"
-      },
-      "cta": {
-        "title": "Continue to Chapter 2",
-        "url": "/chapter-2"
-      },
-      "theme": {
-        "background": "#FBBAE0",
-        "subtitle": "#000",
-        "cta": "#E9F3E6"
-      }
-    }
-  ],
-  "chapter-2": [
-    {
-      "text": {
-        "title": "THE ODE ISLANDS",
-        "subtitle": "A Mixed Reality Voyage To Find Freedom"
-      },
-      "ctaStart": "Begin Journey",
-      "video": {
-        "url": "1-crawling",
-        "width": 1920,
-        "height": 1080
-      },
-      "theme": {
-        "mix": "exclusion",
-        "title": "#37ffce"
       }
     },
     {
@@ -183,11 +160,30 @@
     },
     {
       "text": {
+        "subtitle": "Behind-the-Scenes of the Ode Islands"
+      },
+      "theme": {
+        "background": "#37ffce",
+        "subtitle": "#000",
+        "invert": true
+      }
+    },
+    {
+      "video": {
+        "url": "3-mocap",
+        "type": "immersive",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
+      }
+    },
+    {
+      "text": {
         "subtitle": "NEXT UP"
       },
       "cta": {
-        "title": "Continue to Chapter 3",
-        "url": "/chapter-3"
+        "title": "Continue to Chapter 2",
+        "url": "/chapter-2"
       },
       "theme": {
         "background": "#FBBAE0",
@@ -196,7 +192,7 @@
       }
     }
   ],
-  "chapter-3": [
+  "chapter-2": [
     {
       "text": {
         "title": "THE ODE ISLAND",
@@ -215,15 +211,6 @@
     {
       "text": {
         "description": "I felt lucky compared to the other girls, confident, but the parts that I didn't like, I obsessed over : my hooded eyes, my breasts, my neck. Why could they not be perfect?"
-      }
-    },
-    {
-      "video": {
-        "url": "1-ornaghintro",
-        "type": "immersive",
-        "width": 1080,
-        "height": 1920,
-        "audio": true
       }
     },
     {
@@ -248,8 +235,8 @@
         "subtitle": "NEXT UP"
       },
       "cta": {
-        "title": "Continue to Chapter 4",
-        "url": "/chapter-4"
+        "title": "Continue to Chapter 3",
+        "url": "/chapter-3"
       },
       "theme": {
         "background": "#FBBAE0",
@@ -258,7 +245,7 @@
       }
     }
   ],
-  "chapter-4": [
+  "chapter-3": [
     {
       "text": {
         "title": "WELCOME TO THE ODE ISLANDS",
@@ -324,30 +311,11 @@
     },
     {
       "text": {
-        "subtitle": "Behind-the-Scenes of the Ode Islands"
-      },
-      "theme": {
-        "background": "#37ffce",
-        "subtitle": "#000",
-        "invert": true
-      }
-    },
-    {
-      "video": {
-        "url": "3-mocap",
-        "type": "immersive",
-        "width": 1080,
-        "height": 1920,
-        "audio": true
-      }
-    },
-    {
-      "text": {
         "subtitle": "NEXT UP"
       },
       "cta": {
-        "title": "Continue to Chapter 5",
-        "url": "/chapter-5"
+        "title": "Continue to Chapter 4",
+        "url": "/chapter-4"
       },
       "theme": {
         "background": "#FBBAE0",
@@ -356,7 +324,7 @@
       }
     }
   ],
-  "chapter-5": [
+  "chapter-4": [
     {
       "text": {
         "title": "DOMESTIC BLISS",
