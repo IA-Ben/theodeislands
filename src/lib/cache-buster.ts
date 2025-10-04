@@ -55,11 +55,27 @@ export function isCacheBustingActive(): boolean {
          url.searchParams.has('dev');
 }
 
+export interface CacheInfo {
+  hostname: string;
+  isDevelopment: boolean;
+  cacheBustingActive: boolean;
+  currentUrl: string;
+  timestamp: string;
+}
+
 /**
  * Display cache status info for debugging
  */
-export function getCacheInfo(): object {
-  if (typeof window === 'undefined') return {};
+export function getCacheInfo(): CacheInfo {
+  if (typeof window === 'undefined') {
+    return {
+      hostname: 'unknown',
+      isDevelopment: false,
+      cacheBustingActive: false,
+      currentUrl: '',
+      timestamp: new Date().toISOString()
+    };
+  }
 
   return {
     hostname: window.location.hostname,

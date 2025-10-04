@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Chapter",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "synopsis",
+    "media"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "synopsis": {
+      "type": "string"
+    },
+    "media": {
+      "type": "object",
+      "properties": {
+        "cover": {
+          "type": "string"
+        },
+        "audio": {
+          "type": "string"
+        },
+        "video": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reward_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subchapters": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "explain_hint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

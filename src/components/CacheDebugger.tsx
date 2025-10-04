@@ -1,11 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { clearDataCache, getCacheInfo, isCacheBustingActive } from '@/lib/cache-buster';
+import { clearDataCache, getCacheInfo, type CacheInfo } from '@/lib/cache-buster';
+
+const DEFAULT_CACHE_INFO: CacheInfo = {
+  hostname: 'unknown',
+  isDevelopment: false,
+  cacheBustingActive: false,
+  currentUrl: '',
+  timestamp: new Date().toISOString()
+};
 
 export default function CacheDebugger() {
   const [isVisible, setIsVisible] = useState(false);
-  const [cacheInfo, setCacheInfo] = useState<any>({});
+  const [cacheInfo, setCacheInfo] = useState<CacheInfo>(DEFAULT_CACHE_INFO);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -103,7 +111,7 @@ export default function CacheDebugger() {
           <strong>Team Instructions:</strong><br/>
           • Add ?debug=cache to URL to show this panel<br/>
           • Add ?dev=true to force development mode<br/>
-          • Use "CLEAR CACHE" if updates aren't showing
+          • Use &quot;CLEAR CACHE&quot; if updates are not showing
         </div>
       </div>
     </div>

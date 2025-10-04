@@ -1,0 +1,23 @@
+[
+  {
+    "id": "tee-01",
+    "title": "Ode Islands Tee",
+    "image": "/assets/merch/tee.png",
+    "price": 25.0,
+    "variants": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "cta": "Buy now (demo)"
+  },
+  {
+    "id": "poster-01",
+    "title": "Womb Room Poster",
+    "image": "/assets/merch/poster.png",
+    "price": 15.0,
+    "variants": [],
+    "cta": "Buy now (demo)"
+  }
+]

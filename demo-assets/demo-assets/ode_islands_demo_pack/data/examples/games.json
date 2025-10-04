@@ -1,0 +1,49 @@
+[
+  {
+    "id": "gm-rhythm-01",
+    "type": "rhythm",
+    "title": "Fire\u2019s Lullaby",
+    "audio": "/assets/audio/lullaby.mp3",
+    "beatmap": [
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5,
+      3.0
+    ],
+    "pass_rules": {
+      "grade_min": "A"
+    },
+    "reward_id": "mem-fire-sigil"
+  },
+  {
+    "id": "gm-seq-01",
+    "type": "sequence",
+    "title": "Mean Girls\u2019 Pattern",
+    "glyphs": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "pass_rules": {
+      "grade_min": "B"
+    },
+    "reward_id": "mem-glade-key"
+  },
+  {
+    "id": "gm-hunt-01",
+    "type": "hunt",
+    "title": "Find the Hippokis",
+    "targets": [
+      "/assets/hunt/hippokis.png",
+      "/assets/hunt/seed.png",
+      "/assets/hunt/clock.png"
+    ],
+    "pass_rules": {
+      "grade_min": "B"
+    },
+    "reward_id": "mem-hippokis"
+  }
+]

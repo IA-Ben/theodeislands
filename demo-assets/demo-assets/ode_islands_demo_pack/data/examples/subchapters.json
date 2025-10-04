@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sc-1a",
+    "branch_of": "ch-1",
+    "title": "The Trap Door",
+    "choice_rules": {
+      "requires_any": [
+        "beat-glade",
+        "game-seq>=B"
+      ]
+    },
+    "reward_id": "mem-trap-door"
+  },
+  {
+    "id": "sc-1b",
+    "branch_of": "ch-1",
+    "title": "Fire\u2019s Warning",
+    "choice_rules": {
+      "requires_all": [
+        "mem-heart-window"
+      ],
+      "grade_min": "A"
+    },
+    "reward_id": "mem-fire-sigil"
+  },
+  {
+    "id": "sc-2a",
+    "branch_of": "ch-2",
+    "title": "The Throne",
+    "choice_rules": {
+      "requires_any": [
+        "mem-trap-door"
+      ]
+    },
+    "reward_id": "mem-womb-seal"
+  }
+]

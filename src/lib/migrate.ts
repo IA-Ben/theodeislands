@@ -78,7 +78,7 @@ export async function migrateExistingData(): Promise<void> {
         ctaStart: oldCard.ctaStart,
         image: oldCard.image,
         video: oldCard.video,
-        theme: oldCard.theme
+        theme: oldCard.theme as Record<string, unknown>
       })
     }
     

@@ -40,7 +40,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     const event: DemoEvent = {
       type,
       payload,
-      timestamp: Date.now()
+      timestamp: new Date().toISOString()
     };
 
     // Debounce rapid-fire commands

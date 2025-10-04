@@ -23,7 +23,6 @@ export default function ChapterEditor({
     published: chapter.published
   })
   const [loading, setLoading] = useState(false)
-  const [isCreatingCard, setIsCreatingCard] = useState(false)
 
   useEffect(() => {
     setEditedChapter({
@@ -79,7 +78,6 @@ export default function ChapterEditor({
       
       if (data.success) {
         onCardUpdate()
-        setIsCreatingCard(false)
       } else {
         alert(data.error || 'Failed to create card')
       }

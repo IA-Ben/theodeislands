@@ -1,0 +1,35 @@
+[
+  {
+    "id": "ch-1",
+    "title": "Ode to Him \u2014 Heart House",
+    "synopsis": "Escape the house; face the Mean Girls\u2019 Glade.",
+    "media": {
+      "cover": "/assets/chapters/ch-1.jpg",
+      "audio": "/assets/audio/ch-1.mp3"
+    },
+    "prerequisites": [],
+    "reward_id": "mem-heart-window",
+    "subchapters": [
+      "sc-1a",
+      "sc-1b"
+    ],
+    "explain_hint": "Completing this begins your escape arc."
+  },
+  {
+    "id": "ch-2",
+    "title": "Ode to Her \u2014 The Womb Room",
+    "synopsis": "Find safety and power within.",
+    "media": {
+      "cover": "/assets/chapters/ch-2.jpg",
+      "audio": "/assets/audio/ch-2.mp3"
+    },
+    "prerequisites": [
+      "mem-trap-door"
+    ],
+    "reward_id": "mem-womb-throne",
+    "subchapters": [
+      "sc-2a"
+    ],
+    "explain_hint": "Unlocked after you discover the trap door."
+  }
+]

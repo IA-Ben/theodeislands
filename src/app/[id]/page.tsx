@@ -44,7 +44,7 @@ export default function ChapterPage() {
             } else {
               throw new Error('Dev data not found');
             }
-          } catch (error) {
+          } catch {
             // Fallback to production data
             const response = await fetch('/data/ode-islands.json');
             data = await response.json();

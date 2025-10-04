@@ -5,9 +5,7 @@
 import productionData from '@/app/data/ode-islands.json';
 
 // Type definition for our chapter data structure
-type ChapterData = {
-  [key: string]: any[];
-};
+type ChapterData = Record<string, CardData[]>;
 
 // Cache for storing fetched data with timestamps
 const dataCache = new Map<string, { data: ChapterData; timestamp: number }>();
@@ -38,7 +36,6 @@ const getCacheBuster = (): string => {
 const fetchJSONData = async (filename: string): Promise<ChapterData> => {
   const cacheBuster = getCacheBuster();
   const url = `/data/${filename}${cacheBuster}`;
-  const cacheKey = `${filename}-${cacheBuster}`;
 
   // Check if we have recent cached data (only for production)
   if (!cacheBuster.includes(Date.now().toString())) {
@@ -82,14 +79,14 @@ const loadDevelopmentData = async (): Promise<ChapterData> => {
   try {
     return await fetchJSONData('ode-islands.dev.json');
   } catch (fetchError) {
-    console.warn('Cache-busted fetch failed, trying static import fallback');
+    console.warn('Cache-busted fetch failed, trying static import fallback', fetchError);
 
     // Fallback to static import
     try {
       const devData = await import('@/app/data/ode-islands.dev.json');
       return devData.default as ChapterData;
     } catch (importError) {
-      console.warn('Development data not found, falling back to production data');
+      console.warn('Development data not found, falling back to production data', importError);
       return productionData as ChapterData;
     }
   }
@@ -103,7 +100,7 @@ const loadProductionData = async (): Promise<ChapterData> => {
   try {
     return await fetchJSONData('ode-islands.json');
   } catch (error) {
-    console.warn('Cache-busted fetch failed, using static import fallback');
+    console.warn('Cache-busted fetch failed, using static import fallback', error);
     return productionData as ChapterData;
   }
 };
@@ -130,7 +127,7 @@ export async function getOdeIslandsData(): Promise<ChapterData> {
 /**
  * Get data for a specific chapter
  */
-export async function getChapterData(chapter: string) {
+export async function getChapterData(chapter: string): Promise<CardData[]> {
   const data = await getOdeIslandsData();
   return data[chapter] || [];
 }

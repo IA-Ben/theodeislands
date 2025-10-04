@@ -3,13 +3,12 @@
 
 import fs from 'fs/promises'
 import path from 'path'
-import { Chapter, Card, MediaAsset, CMSUser } from '@/@typings/cms'
+import { Chapter, Card, MediaAsset } from '@/@typings/cms'
 
 const DATA_DIR = path.join(process.cwd(), 'data/cms')
 const CHAPTERS_FILE = path.join(DATA_DIR, 'chapters.json')
 const CARDS_FILE = path.join(DATA_DIR, 'cards.json')
 const MEDIA_FILE = path.join(DATA_DIR, 'media.json')
-const USERS_FILE = path.join(DATA_DIR, 'users.json')
 
 // Ensure data directory exists
 async function ensureDataDir() {
@@ -181,21 +180,18 @@ export async function exportToMainDataFile(): Promise<void> {
   const chapters = await getAllChapters()
   const publishedChapters = chapters.filter(c => c.published).sort((a, b) => a.order - b.order)
   
-  const exportData: { [key: string]: any[] } = {}
+  const exportData: Record<string, CardData[]> = {}
   
   for (const chapter of publishedChapters) {
     const cards = await getCardsByChapter(chapter.id)
-    const formattedCards = cards.map(card => {
-      // Convert CMS format to original format
-      const formatted: any = {}
-      if (card.text) formatted.text = card.text
-      if (card.cta) formatted.cta = card.cta
-      if (card.ctaStart) formatted.ctaStart = card.ctaStart
-      if (card.image) formatted.image = card.image
-      if (card.video) formatted.video = card.video
-      if (card.theme) formatted.theme = card.theme
-      return formatted
-    })
+    const formattedCards: CardData[] = cards.map(card => ({
+      ...(card.text ? { text: card.text } : {}),
+      ...(card.cta ? { cta: card.cta } : {}),
+      ...(card.ctaStart ? { ctaStart: card.ctaStart } : {}),
+      ...(card.image ? { image: card.image } : {}),
+      ...(card.video ? { video: card.video } : {}),
+      ...(card.theme ? { theme: card.theme } : {})
+    }))
     
     exportData[`chapter-${chapter.order}`] = formattedCards
   }

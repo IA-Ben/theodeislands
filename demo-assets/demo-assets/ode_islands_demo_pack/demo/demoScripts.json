@@ -1,0 +1,111 @@
+{
+  "shortcuts": {
+    "global": "Shift+D",
+    "overlay": {
+      "feed": "1",
+      "chapter": "2",
+      "gameAutoPass": "3",
+      "wallet": "4",
+      "venue": "5",
+      "recap": "6",
+      "uploader": "U"
+    }
+  },
+  "scripts": [
+    {
+      "id": "southbank-5min",
+      "name": "Southbank 5\u2011minute",
+      "steps": [
+        {
+          "action": "phase:set",
+          "payload": {
+            "phase": "pre"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "feed"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "chapter",
+            "id": "ch-1"
+          }
+        },
+        {
+          "action": "complete",
+          "payload": {
+            "type": "chapter",
+            "id": "ch-1"
+          }
+        },
+        {
+          "action": "reward:grant",
+          "payload": {
+            "memoryId": "mem-heart-window"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "game",
+            "id": "gm-rhythm-01"
+          }
+        },
+        {
+          "action": "game:result",
+          "payload": {
+            "gameId": "gm-rhythm-01",
+            "grade": "A",
+            "passed": true
+          }
+        },
+        {
+          "action": "reward:grant",
+          "payload": {
+            "memoryId": "mem-fire-sigil"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "wallet"
+          }
+        },
+        {
+          "action": "phase:set",
+          "payload": {
+            "phase": "show"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "venue"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "merch"
+          }
+        },
+        {
+          "action": "phase:set",
+          "payload": {
+            "phase": "post"
+          }
+        },
+        {
+          "action": "navigate",
+          "payload": {
+            "to": "afterRecap"
+          }
+        }
+      ]
+    }
+  ]
+}
