@@ -1,7 +1,8 @@
 // Migration utility to import existing data into CMS format
 
-import fs from 'fs/promises'
-import path from 'path'
+// import fs from 'fs/promises'
+// import path from 'path'
+import type { CSSProperties } from 'react'
 import { createChapter, createCard } from './db'
 import data from '../app/data/ode-islands.json'
 
@@ -29,7 +30,7 @@ interface OldCardData {
     audio?: boolean
   }
   theme?: {
-    mix?: any
+    mix?: CSSProperties['mixBlendMode']
     shadow?: boolean
     background?: string
     overlay?: string

@@ -1,0 +1,22 @@
+{
+  "aiFeed": {
+    "enabled": true,
+    "modelHook": false
+  },
+  "demo": {
+    "enabled": true,
+    "latencyMs": 200
+  },
+  "afterRecap": {
+    "enabled": true
+  },
+  "venueCards": {
+    "enabled": true
+  },
+  "merchCards": {
+    "enabled": true
+  },
+  "assetUploader": {
+    "enabled": true
+  }
+}

@@ -3,6 +3,8 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import DevIndicator from "@/components/DevIndicator";
 import CacheDebugger from "@/components/CacheDebugger";
+import { DemoProvider } from "@/contexts/DemoContext";
+import PresenterModePortal from "@/components/demo/PresenterModePortal";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -33,9 +35,12 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
       </head>
       <body className={`${manrope.variable} antialiased`}>
-        <DevIndicator />
-        <CacheDebugger />
-        {children}
+        <DemoProvider>
+          <DevIndicator />
+          <CacheDebugger />
+          {children}
+          <PresenterModePortal />
+        </DemoProvider>
       </body>
     </html>
   );

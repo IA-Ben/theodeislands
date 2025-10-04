@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MicroGame",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "reward_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "rhythm",
+        "sequence",
+        "hunt"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "audio": {
+      "type": "string"
+    },
+    "beatmap": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "glyphs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pass_rules": {
+      "type": "object",
+      "properties": {
+        "grade_min": {
+          "type": "string",
+          "enum": [
+            "S",
+            "A",
+            "B",
+            "C"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "reward_id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

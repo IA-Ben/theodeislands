@@ -1,0 +1,34 @@
+{
+  "feed": {
+    "title": "For You",
+    "chips": [
+      "Because you unlocked {memory_name}.",
+      "Completes your {set_name} set.",
+      "Show day at {venue_name}."
+    ]
+  },
+  "wallet": {
+    "title": "Memory Wallet",
+    "owned": "Owned",
+    "missing": "Missing",
+    "progress": "You\u2019ve collected {owned} of {total} memories."
+  },
+  "toasts": {
+    "rewardGranted": "Unlocked: {memory_name}!",
+    "gamePassed": "Nice \u2014 grade {grade}.",
+    "branchUnlocked": "New path unlocked."
+  },
+  "errors": {
+    "uploadFailed": "Some files failed validation.",
+    "schemaMismatch": "Schema mismatch in {file}."
+  },
+  "demo": {
+    "overlayTitle": "Presenter Mode",
+    "buttons": [
+      "Pre\u2011show",
+      "Show day",
+      "Post\u2011show",
+      "Run 5\u2011minute demo"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "weights": {
+    "needs_progress": 0.32,
+    "branch_diversity": 0.18,
+    "rarity_gap": 0.2,
+    "event_phase": 0.18,
+    "recency": 0.08,
+    "performance_balance": 0.04
+  },
+  "epsilon": 0.02,
+  "phase_priority": {
+    "pre": 1.0,
+    "show": 1.2,
+    "post": 0.9
+  }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ach-pathfinder",
+    "name": "Pathfinder",
+    "rule": "Complete any two different subchapters in Act II",
+    "grants_memory": null
+  },
+  {
+    "id": "ach-steady-hand",
+    "name": "Steady Hand",
+    "rule": "Achieve grade A or higher on any rhythm game",
+    "grants_memory": "mem-fire-sigil"
+  },
+  {
+    "id": "ach-collector",
+    "name": "Collector",
+    "rule": "Own 8 or more memories across any acts",
+    "grants_memory": null
+  }
+]

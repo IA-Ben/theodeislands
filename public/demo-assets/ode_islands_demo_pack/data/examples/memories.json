@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mem-heart-window",
+    "name": "Heart House Window",
+    "image": "/assets/mem/heart-window.png",
+    "rarity": "Common",
+    "set": "Act I",
+    "lore": "A shard from the window you broke to escape."
+  },
+  {
+    "id": "mem-trap-door",
+    "name": "Trap Door Handle",
+    "image": "/assets/mem/trap-door.png",
+    "rarity": "Uncommon",
+    "set": "Act I",
+    "lore": "Cold iron worn by many who sought freedom."
+  },
+  {
+    "id": "mem-fire-sigil",
+    "name": "Fire\u2019s Sigil",
+    "image": "/assets/mem/fire-sigil.gif",
+    "rarity": "Rare",
+    "set": "Act I",
+    "lore": "A mark of wakefulness granted by the fire."
+  },
+  {
+    "id": "mem-womb-throne",
+    "name": "Womb Throne Token",
+    "image": "/assets/mem/womb-throne.png",
+    "rarity": "Rare",
+    "set": "Act II",
+    "lore": "You sat, and the room sang your name."
+  },
+  {
+    "id": "mem-womb-seal",
+    "name": "Womb Seal",
+    "image": "/assets/mem/womb-seal.png",
+    "rarity": "Holo",
+    "set": "Act II",
+    "lore": "A shimmering seal of balance."
+  }
+]
