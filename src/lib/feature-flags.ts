@@ -121,6 +121,14 @@ class FeatureFlagManager {
    * Production guard for demo features
    */
   isDemoEnabled(): boolean {
+    // Check localStorage override first (for manual toggle)
+    if (typeof window !== 'undefined') {
+      const override = localStorage.getItem('DEMO_ENABLED_OVERRIDE');
+      if (override !== null) {
+        return override === 'true';
+      }
+    }
+
     if (this.isProduction && process.env.NEXT_PUBLIC_DEMO_ENABLED !== 'true') {
       return false;
     }

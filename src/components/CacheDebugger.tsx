@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { clearDataCache, getCacheInfo, type CacheInfo } from '@/lib/cache-buster';
+import { featureFlags } from '@/lib/feature-flags';
 
 const DEFAULT_CACHE_INFO: CacheInfo = {
   hostname: 'unknown',
@@ -15,6 +16,7 @@ export default function CacheDebugger() {
   const [isVisible, setIsVisible] = useState(false);
   const [cacheInfo, setCacheInfo] = useState<CacheInfo>(DEFAULT_CACHE_INFO);
   const [isClient, setIsClient] = useState(false);
+  const [isDemoEnabled, setIsDemoEnabled] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -25,11 +27,26 @@ export default function CacheDebugger() {
                         window.location.search.includes('debug=cache');
       setIsVisible(shouldShow);
       setCacheInfo(getCacheInfo());
+
+      // Check current demo status
+      setIsDemoEnabled(featureFlags.isDemoEnabled());
     }
   }, []);
 
   const refreshCacheInfo = () => {
     setCacheInfo(getCacheInfo());
+    setIsDemoEnabled(featureFlags.isDemoEnabled());
+  };
+
+  const toggleDemoMode = () => {
+    if (typeof window !== 'undefined') {
+      const newState = !isDemoEnabled;
+      // Store in localStorage to persist across reloads
+      localStorage.setItem('DEMO_ENABLED_OVERRIDE', newState.toString());
+      setIsDemoEnabled(newState);
+      // Reload to apply changes
+      window.location.reload();
+    }
   };
 
   const handleClearCache = () => {
@@ -75,6 +92,13 @@ export default function CacheDebugger() {
             </span>
           </div>
 
+          <div className="flex justify-between">
+            <span className="text-gray-400">Demo Mode:</span>
+            <span className={isDemoEnabled ? 'text-green-400' : 'text-red-400'}>
+              {isDemoEnabled ? 'ENABLED' : 'DISABLED'}
+            </span>
+          </div>
+
           <div className="text-gray-400 text-[10px] break-all">
             Host: {cacheInfo.hostname}
           </div>
@@ -85,6 +109,17 @@ export default function CacheDebugger() {
         </div>
 
         <div className="space-y-1">
+          <button
+            onClick={toggleDemoMode}
+            className={`w-full px-2 py-1 rounded text-[10px] font-bold ${
+              isDemoEnabled
+                ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                : 'bg-purple-600 hover:bg-purple-700 text-white'
+            }`}
+          >
+            🎭 {isDemoEnabled ? 'DISABLE DEMO' : 'ENABLE DEMO'}
+          </button>
+
           <button
             onClick={handleClearCache}
             className="w-full bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-[10px] font-bold"
@@ -111,7 +146,9 @@ export default function CacheDebugger() {
           <strong>Team Instructions:</strong><br/>
           • Add ?debug=cache to URL to show this panel<br/>
           • Add ?dev=true to force development mode<br/>
-          • Use &quot;CLEAR CACHE&quot; if updates are not showing
+          • Use "ENABLE DEMO" to activate presenter mode<br/>
+          • Use "CLEAR CACHE" if updates are not showing<br/>
+          • Demo: Press Shift+D when enabled
         </div>
       </div>
     </div>
