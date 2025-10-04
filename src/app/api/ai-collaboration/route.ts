@@ -121,10 +121,16 @@ async function handleGetSessionStatus(sessionId: string) {
   });
 }
 
-// GET endpoint for session info
+// GET endpoint for session info and messages
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const sessionId = searchParams.get('sessionId');
+  const messageCount = searchParams.get('messages');
+
+  // If requesting messages
+  if (messageCount) {
+    return await handleGetMessages(sessionId || 'default', parseInt(messageCount));
+  }
 
   if (!sessionId) {
     // Return active session if no specific session requested
