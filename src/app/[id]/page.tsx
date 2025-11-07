@@ -192,7 +192,11 @@ export default function ChapterPage() {
       >
         {cards.map((card, cardIndex) => (
           <div key={cardIndex} className="snap-start w-full">
-            <ClientCard data={card} active={cardIndex === index} />
+            <ClientCard
+              data={card}
+              active={cardIndex === index}
+              forceInitialMute={cardIndex === 0 && !interacted}
+            />
           </div>
         ))}
       </div>

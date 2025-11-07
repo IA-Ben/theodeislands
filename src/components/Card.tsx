@@ -8,11 +8,12 @@ import Player from "./Player";
 interface CardProps {
   data: CardData;
   active: boolean;
+  forceInitialMute?: boolean;
 }
 
 const cdnUrl = process.env.NEXT_PUBLIC_CDN_URL || "";
 
-export const Card: React.FC<CardProps> = ({ data, active }) => {
+export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) => {
   const router = useRouter();
   const [anim, setAnim] = useState(false);
   const [playing, setPlaying] = useState(true);
@@ -81,7 +82,7 @@ export const Card: React.FC<CardProps> = ({ data, active }) => {
                   ? "h-full w-auto"
                   : "w-full h-full object-contain"
               }`}
-              muted={!video.audio}
+              muted={forceInitialMute || !video.audio}
               loop
               style={{
                 opacity: playing ? 1 : 0.5,
