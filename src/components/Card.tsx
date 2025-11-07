@@ -143,10 +143,13 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
       >
         {title && (
           <h1
-            className="text-7xl sm:text-[14rem] font-bold text-white mb-4 font-sans"
+            className="text-7xl sm:text-[14rem] font-bold text-white mb-4 font-sans w-full"
             style={{
               color: theme?.title || undefined,
               textShadow,
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              hyphens: 'auto',
             }}
           >
             <AnimateText active={anim} delay={300}>
@@ -156,10 +159,12 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
         )}
         {subtitle && (
           <h2
-            className="w-full max-w-4xl text-4xl sm:text-6xl font-bold text-white mb-4 font-sans"
+            className="w-full text-4xl sm:text-6xl font-bold text-white mb-4 font-sans"
             style={{
               color: theme?.subtitle || undefined,
               textShadow,
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
             }}
           >
             <AnimateText active={anim} delay={title ? 600 : 300}>
@@ -169,10 +174,12 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
         )}
         {description && (
           <p
-            className="w-full max-w-4xl text-lg md:text-3xl text-white leading-relaxed font-sans"
+            className="w-full text-lg md:text-3xl text-white leading-relaxed font-sans"
             style={{
               color: theme?.description || undefined,
               textShadow,
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
             }}
           >
             <AnimateText active={anim} delay={title || subtitle ? 900 : 600}>
