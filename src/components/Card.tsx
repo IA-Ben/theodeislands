@@ -150,7 +150,7 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
               wordWrap: 'break-word',
               overflowWrap: 'break-word',
               hyphens: 'auto',
-              fontSize: 'clamp(3rem, 12vw, 14rem)',
+              fontSize: 'clamp(2.5rem, 10vw, 10rem)',
               lineHeight: '1.1',
             }}
           >
