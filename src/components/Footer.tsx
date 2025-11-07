@@ -5,6 +5,7 @@ interface FooterProps {
   currentCard: CardData;
   totalCards: number;
   interacted: boolean;
+  onStart: () => void;
   onFirst: () => void;
   onNext: () => void;
 }
@@ -14,6 +15,7 @@ export const Footer: React.FC<FooterProps> = ({
   currentCard,
   totalCards,
   interacted,
+  onStart,
   onFirst,
   onNext,
 }) => {
@@ -31,7 +33,7 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Start */}
       {!interacted && (
         <button
-          onClick={onNext}
+          onClick={onStart}
           className={`absolute flex items-center justify-center h-14 px-6 rounded-full cursor-pointer text-base font-semibold ${
             invert
               ? "bg-black hover:bg-black/80 text-white"

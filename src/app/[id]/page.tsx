@@ -92,6 +92,10 @@ export default function ChapterPage() {
     scrollToCard(newIndex);
   }, [index, scrollToCard]);
 
+  const onStart = useCallback(() => {
+    setInteracted(true);
+  }, []);
+
   const onNext = useCallback(() => {
     if (!interacted) {
       setInteracted(true);
@@ -205,6 +209,7 @@ export default function ChapterPage() {
         currentCard={cards[index]}
         totalCards={cards.length}
         interacted={interacted}
+        onStart={onStart}
         onFirst={onFirst}
         onNext={onNext}
       />
