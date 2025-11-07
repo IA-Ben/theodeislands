@@ -79,7 +79,7 @@ export const Card: React.FC<CardProps> = ({ data, active }) => {
               className={`absolute ${
                 videoImmersive && typeof window !== 'undefined' && window.innerWidth > window.innerHeight
                   ? "h-full w-auto"
-                  : "w-full h-full object-cover"
+                  : "w-full h-full object-contain"
               }`}
               muted={!video.audio}
               loop
