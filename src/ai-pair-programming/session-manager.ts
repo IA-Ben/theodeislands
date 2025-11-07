@@ -3,10 +3,12 @@
  * Coordinates real-time collaboration between Claude and ChatGPT
  */
 
+export type Participant = 'claude' | 'chatgpt' | 'augment';
+
 export interface AIPairSession {
   sessionId: string;
   feature: string;
-  participants: ['claude', 'chatgpt'];
+  participants: Participant[];
   status: 'active' | 'paused' | 'completed';
   startTime: Date;
   currentFile?: string;
@@ -24,9 +26,9 @@ export interface AIPairSession {
 }
 
 export interface Message {
-  from: 'claude' | 'chatgpt';
+  from: Participant;
   timestamp: Date;
-  type: 'suggestion' | 'question' | 'implementation' | 'review' | 'decision';
+  type: 'suggestion' | 'question' | 'implementation' | 'review' | 'decision' | 'system';
   content: string;
   codeRef?: {
     file: string;
@@ -37,7 +39,7 @@ export interface Message {
 
 export interface CodeChange {
   file: string;
-  author: 'claude' | 'chatgpt';
+  author: Participant;
   timestamp: Date;
   description: string;
   diff: string;
@@ -48,7 +50,7 @@ export interface Decision {
   topic: string;
   decision: string;
   rationale: string;
-  agreedBy: ('claude' | 'chatgpt')[];
+  agreedBy: Participant[];
   timestamp: Date;
 }
 
@@ -61,7 +63,7 @@ export class AIPairSessionManager {
     const session: AIPairSession = {
       sessionId,
       feature,
-      participants: ['claude', 'chatgpt'],
+      participants: ['claude', 'chatgpt', 'augment'],
       status: 'active',
       startTime: new Date(),
       goals,
@@ -121,6 +123,14 @@ export class AIPairSessionManager {
   async updateProgress(sessionId: string, item: string, newStatus: 'completed' | 'inProgress' | 'pending'): Promise<void> {
     const session = await this.loadSession(sessionId);
     if (!session) throw new Error(`Session ${sessionId} not found`);
+
+    // Ensure progress object is properly initialized
+    if (!session.progress) {
+      session.progress = { completed: [], inProgress: [], pending: [] };
+    }
+    if (!session.progress.completed) session.progress.completed = [];
+    if (!session.progress.inProgress) session.progress.inProgress = [];
+    if (!session.progress.pending) session.progress.pending = [];
 
     // Remove from all arrays
     session.progress.completed = session.progress.completed.filter(i => i !== item);

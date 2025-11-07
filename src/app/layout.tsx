@@ -5,6 +5,7 @@ import DevIndicator from "@/components/DevIndicator";
 import CacheDebugger from "@/components/CacheDebugger";
 import { DemoProvider } from "@/contexts/DemoContext";
 import PresenterModePortal from "@/components/demo/PresenterModePortal";
+import AICollaborationPanel from "@/components/ai-collab/AICollaborationPanel";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -40,6 +41,7 @@ export default function RootLayout({
           <CacheDebugger />
           {children}
           <PresenterModePortal />
+          <AICollaborationPanel />
         </DemoProvider>
       </body>
     </html>

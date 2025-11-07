@@ -1,0 +1,1 @@
+# Generated Components\n\nThis directory contains auto-generated components from the Roadmap Build System.\n\n**Do not edit these files directly** - they may be regenerated.\n\nInstead:\n1. Edit the spec in the roadmap\n2. Rebuild the feature\n3. Or copy to a new location and customize

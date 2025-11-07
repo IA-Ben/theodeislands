@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "dev:production": "node scripts/dev-switch.js prod && next dev --turbopack",
-    "dev:development": "node scripts/dev-switch.js dev && next dev --turbopack",
+    "dev": "next dev --turbopack -p 3000",
+    "dev:production": "node scripts/dev-switch.js prod && next dev --turbopack -p 3000",
+    "dev:development": "node scripts/dev-switch.js dev && next dev --turbopack -p 3000",
+    "dev:collab": "next dev --turbopack -p 3002",
     "build": "NEXT_PUBLIC_BUILD_TIME=$(date +%s) next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,7 +14,8 @@
     "transcode:watch": "cd resources/transcoder && npm run dev:watch",
     "upload": "cd resources/transcoder && gsutil -m cp -r out/* gs://odeislands/vid/",
     "data:dev": "node scripts/dev-switch.js dev",
-    "data:prod": "node scripts/dev-switch.js prod"
+    "data:prod": "node scripts/dev-switch.js prod",
+    "kill-port": "lsof -ti:3000 | xargs kill -9 || true"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.63.1",

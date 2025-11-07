@@ -1,0 +1,27 @@
+{
+  "sessionId": "immersiv.es-collaboration-1759549170369",
+  "feature": "Immersiv.es Collaboration",
+  "participants": [
+    "claude",
+    "chatgpt"
+  ],
+  "status": "active",
+  "startTime": "2025-10-04T03:39:30.369Z",
+  "goals": [
+    "Coordinate Claude + ChatGPT",
+    "Track demo tasks"
+  ],
+  "progress": {
+    "completed": [],
+    "inProgress": [],
+    "pending": [
+      "Coordinate Claude + ChatGPT",
+      "Track demo tasks"
+    ]
+  },
+  "sharedContext": {
+    "decisions": [],
+    "codeChanges": [],
+    "discussion": []
+  }
+}

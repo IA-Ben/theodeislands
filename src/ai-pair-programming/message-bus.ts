@@ -3,9 +3,9 @@
  * Enables real-time communication between Claude and ChatGPT during pair programming
  */
 
-import { aiPairSession, type Message } from './session-manager';
+import { aiPairSession, type Message, type Participant } from './session-manager';
 
-export type AIParticipant = 'claude' | 'chatgpt';
+export type AIParticipant = Participant;
 
 export interface CodeDiscussion {
   file: string;

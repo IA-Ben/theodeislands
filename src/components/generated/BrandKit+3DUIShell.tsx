@@ -9,11 +9,11 @@
 
 import React, { useState } from 'react';
 
-interface BrandKit+3DUIShellProps {
+interface BrandKitAnd3DUIShellProps {
   className?: string;
 }
 
-export default function BrandKit+3DUIShell({ className = '' }: BrandKit+3DUIShellProps) {
+export default function BrandKitAnd3DUIShell({ className = '' }: BrandKitAnd3DUIShellProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   return (

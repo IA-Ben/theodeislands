@@ -1,361 +1,435 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { cn } from '@/lib/utils';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-interface CollaborationMessage {
-  id: string;
-  from: 'claude' | 'chatgpt' | 'codex' | 'augment' | 'system';
-  type: 'suggestion' | 'question' | 'implementation' | 'review' | 'announcement' | 'assignment';
+type Participant = 'claude' | 'chatgpt' | 'augment';
+
+type CollaborationMessage = {
+  from: Participant;
+  type: 'suggestion' | 'question' | 'implementation' | 'review' | 'decision' | 'system';
   content: string;
   timestamp: string;
   codeRef?: {
     file?: string;
     suggestion?: string;
+    lines?: [number, number];
   };
-  status?: 'thinking' | 'typing' | 'completed';
-}
+};
 
-interface SessionStatus {
-  sessionId: string | null;
+type SessionProgress = {
+  completed: string[];
+  inProgress: string[];
+  pending: string[];
+};
+
+type CollaborationSession = {
+  sessionId: string;
   feature: string;
-  participants: string[];
+  participants: Participant[];
+  status: 'active' | 'paused' | 'completed';
   startTime: string;
-  messageCount: number;
-}
-
-const AI_PROFILES = {
-  claude: {
-    name: 'Claude',
-    role: 'Architecture & Implementation',
-    emoji: '🏗️',
-    color: 'bg-blue-500',
-    textColor: 'text-blue-100',
-    description: 'System design, complex features, integration'
-  },
-  chatgpt: {
-    name: 'ChatGPT',
-    role: 'Research & Documentation',
-    emoji: '📚',
-    color: 'bg-green-500',
-    textColor: 'text-green-100',
-    description: 'Requirements analysis, API research, UX'
-  },
-  codex: {
-    name: 'VS Code Codex',
-    role: 'Real-time Development',
-    emoji: '💻',
-    color: 'bg-purple-500',
-    textColor: 'text-purple-100',
-    description: 'Live coding, autocomplete, IDE integration'
-  },
-  augment: {
-    name: 'Augment Code',
-    role: 'Generation & Optimization',
-    emoji: '🎯',
-    color: 'bg-orange-500',
-    textColor: 'text-orange-100',
-    description: 'Rapid code generation, refactoring, performance'
-  },
-  system: {
-    name: 'System',
-    role: 'Coordination',
-    emoji: '🤖',
-    color: 'bg-gray-500',
-    textColor: 'text-gray-100',
-    description: 'Session management and coordination'
-  }
+  currentFile?: string;
+  goals: string[];
+  progress: SessionProgress;
 };
 
-const MESSAGE_TYPES = {
-  suggestion: { emoji: '💡', color: 'bg-yellow-100 border-yellow-300' },
-  question: { emoji: '❓', color: 'bg-blue-100 border-blue-300' },
-  implementation: { emoji: '⚡', color: 'bg-green-100 border-green-300' },
-  review: { emoji: '🔍', color: 'bg-purple-100 border-purple-300' },
-  announcement: { emoji: '📢', color: 'bg-red-100 border-red-300' },
-  assignment: { emoji: '📋', color: 'bg-indigo-100 border-indigo-300' }
-};
+const MESSAGE_TYPES: CollaborationMessage['type'][] = [
+  'implementation',
+  'suggestion',
+  'question',
+  'review',
+  'decision',
+  'system'
+];
 
-export default function AICollaborationDashboard() {
+export default function AICollabPage() {
+  const [loading, setLoading] = useState(true);
+  const [sessionId, setSessionId] = useState('');
+  const [session, setSession] = useState<CollaborationSession | null>(null);
   const [messages, setMessages] = useState<CollaborationMessage[]>([]);
-  const [sessionStatus, setSessionStatus] = useState<SessionStatus | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
-  const [autoScroll, setAutoScroll] = useState(true);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [filter, setFilter] = useState<string>('all');
+  const [error, setError] = useState<string | null>(null);
+  const [messageText, setMessageText] = useState('');
+  const [messageType, setMessageType] = useState<CollaborationMessage['type']>('implementation');
+  const [messageAuthor, setMessageAuthor] = useState<Participant>('chatgpt');
+  const [isSending, setIsSending] = useState(false);
+  const [creatingSession, setCreatingSession] = useState(false);
+  const [newFeature, setNewFeature] = useState('Immersiv.es Collaboration');
+  const [newGoals, setNewGoals] = useState('Coordinate Claude + ChatGPT;Track demo tasks');
 
-  // Scroll to bottom when new messages arrive
-  useEffect(() => {
-    if (autoScroll && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  const hasSession = useMemo(() => Boolean(session && sessionId), [session, sessionId]);
+
+  const fetchMessages = useCallback(async (id: string) => {
+    if (!id) return;
+
+    try {
+      const response = await fetch(`/api/ai-collaboration?sessionId=${encodeURIComponent(id)}&messages=50`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error ?? 'Failed to load messages');
+      }
+
+      setMessages(Array.isArray(data.messages) ? data.messages : []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to load messages.');
+      setMessages([]);
     }
-  }, [messages, autoScroll]);
-
-  // Poll for new messages
-  useEffect(() => {
-    const pollMessages = async () => {
-      try {
-        const response = await fetch('/api/ai-collaboration?messages=20');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.messages) {
-            setMessages(data.messages.reverse()); // Reverse to show oldest first
-            setIsConnected(true);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch messages:', error);
-        setIsConnected(false);
-      }
-    };
-
-    const pollStatus = async () => {
-      try {
-        const response = await fetch('/api/ai-collaboration');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.activeSession) {
-            setSessionStatus(data.activeSession);
-          }
-        }
-      } catch (error) {
-        console.error('Failed to fetch session status:', error);
-      }
-    };
-
-    // Initial load
-    pollMessages();
-    pollStatus();
-
-    // Set up polling
-    const messageInterval = setInterval(pollMessages, 2000); // Poll every 2 seconds
-    const statusInterval = setInterval(pollStatus, 10000); // Poll status every 10 seconds
-
-    return () => {
-      clearInterval(messageInterval);
-      clearInterval(statusInterval);
-    };
   }, []);
 
-  const startNewSession = async () => {
+  const fetchActiveSession = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
     try {
+      const response = await fetch('/api/ai-collaboration');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error ?? 'Failed to load active session');
+      }
+
+      if (!data?.activeSession) {
+        setSession(null);
+        setSessionId('');
+        setMessages([]);
+        setError('No active session found. Create a session to get started.');
+        return;
+      }
+
+      setSession(data.activeSession);
+      setSessionId(data.activeSession.sessionId);
+      await fetchMessages(data.activeSession.sessionId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to load session.');
+      setSession(null);
+      setSessionId('');
+      setMessages([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchMessages]);
+
+  const handleSessionRefresh = useCallback(async () => {
+    if (sessionId) {
+      await fetchMessages(sessionId);
+    } else {
+      await fetchActiveSession();
+    }
+  }, [fetchActiveSession, fetchMessages, sessionId]);
+
+  const handleSendMessage = useCallback(async () => {
+    if (!sessionId || !messageText.trim()) {
+      setError('Enter a message and ensure a session is selected.');
+      return;
+    }
+
+    setIsSending(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/ai-collaboration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'send-message',
+          sessionId,
+          data: {
+            from: messageAuthor,
+            type: messageType,
+            content: messageText,
+            codeRef: undefined
+          }
+        })
+      });
+
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result?.error ?? 'Unable to send message');
+      }
+
+      setMessageText('');
+      await fetchMessages(sessionId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send message.');
+    } finally {
+      setIsSending(false);
+    }
+  }, [sessionId, messageText, messageAuthor, messageType, fetchMessages]);
+
+  const handleSessionLookup = useCallback(async () => {
+    if (!sessionId.trim()) {
+      await fetchActiveSession();
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/ai-collaboration?sessionId=${encodeURIComponent(sessionId)}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error ?? 'Session not found');
+      }
+
+      setSession(data.session ?? null);
+      setMessages(data.session?.sharedContext?.discussion ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to load session');
+      setSession(null);
+      setMessages([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchActiveSession, sessionId]);
+
+  const handleCreateSession = useCallback(async () => {
+    setCreatingSession(true);
+    setError(null);
+
+    try {
+      const goals = newGoals
+        .split(';')
+        .map(goal => goal.trim())
+        .filter(Boolean);
+
       const response = await fetch('/api/ai-collaboration', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'create-session',
           data: {
-            feature: 'Live AI Collaboration Dashboard',
-            goals: [
-              'Monitor four-way AI communication',
-              'Coordinate development tasks',
-              'Share code and suggestions',
-              'Track session progress'
-            ]
+            feature: newFeature,
+            goals: goals.length ? goals : ['Coordinate AI collaboration']
           }
         })
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('New session started:', data.sessionId);
-        // Refresh status
-        setTimeout(() => window.location.reload(), 1000);
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result?.error ?? 'Failed to create session');
       }
-    } catch (error) {
-      console.error('Failed to start session:', error);
-    }
-  };
 
-  const sendTestMessage = async () => {
-    try {
-      await fetch('/api/ai-collaboration', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'send-message',
-          sessionId: sessionStatus?.sessionId,
-          data: {
-            from: 'claude',
-            type: 'announcement',
-            content: `🎭 Hello from the AI Collaboration Dashboard! All four AIs are ready to work together. Current time: ${new Date().toLocaleTimeString()}`
-          }
-        })
-      });
-    } catch (error) {
-      console.error('Failed to send test message:', error);
+      setSession(result.session);
+      setSessionId(result.session.sessionId);
+      setMessages(result.session.sharedContext?.discussion ?? []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unable to create session');
+    } finally {
+      setCreatingSession(false);
     }
-  };
+  }, [newFeature, newGoals]);
 
-  const filteredMessages = filter === 'all'
-    ? messages
-    : messages.filter(msg => msg.from === filter);
+  useEffect(() => {
+    fetchActiveSession();
+  }, [fetchActiveSession]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">🤖 AI Collaboration Dashboard</h1>
-              <p className="text-gray-400">Live communication between Claude, ChatGPT, VS Code Codex, and Augment Code</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className={cn(
-                "px-3 py-1 rounded-full text-sm font-medium",
-                isConnected ? "bg-green-500 text-white" : "bg-red-500 text-white"
-              )}>
-                {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
+    <div className="min-h-screen bg-black text-gray-100 p-6">
+      <div className="max-w-5xl mx-auto space-y-6">
+        <header className="space-y-2">
+          <h1 className="text-3xl font-semibold text-white">🤖 AI Collaboration Console</h1>
+          <p className="text-sm text-gray-400">
+            Monitor and participate in Claude + ChatGPT pair-programming sessions. Use the tools below to
+            fetch sessions, review transcripts, and post new messages.
+          </p>
+        </header>
+
+        {error && (
+          <div className="rounded-md border border-red-500/60 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+            {error}
+          </div>
+        )}
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+            <h2 className="text-lg font-medium text-white">Current Session</h2>
+            <div className="mt-3 space-y-3 text-sm">
+              <label className="block">
+                <span className="text-gray-300">Session ID</span>
+                <input
+                  value={sessionId}
+                  onChange={(event) => setSessionId(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') handleSessionLookup();
+                  }}
+                  className="mt-1 w-full rounded-md border border-white/20 bg-black/50 px-3 py-2 text-sm text-white"
+                  placeholder="Enter session ID or leave blank for active session"
+                />
+              </label>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={handleSessionLookup}
+                  className="rounded-md bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/20"
+                >
+                  Load Session
+                </button>
+                <button
+                  onClick={handleSessionRefresh}
+                  className="rounded-md border border-white/20 px-3 py-2 text-sm font-medium text-white hover:bg-white/10"
+                >
+                  Refresh Messages
+                </button>
               </div>
-              {sessionStatus ? (
-                <button
-                  onClick={sendTestMessage}
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium"
-                >
-                  Send Test Message
-                </button>
+
+              {loading && <p className="text-xs text-gray-400">Loading session&hellip;</p>}
+
+              {session ? (
+                <div className="rounded-md border border-white/10 bg-black/40 p-3">
+                  <p className="text-sm text-white"><strong>Feature:</strong> {session.feature}</p>
+                  <p className="text-xs text-gray-400">
+                    Started: {new Date(session.startTime).toLocaleString()} &bull; Status: {session.status}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-2">
+                    Goals: {session.goals.join(', ') || 'No goals recorded'}
+                  </p>
+                  <div className="mt-3 grid gap-1 text-xs text-gray-300">
+                    <p className="font-medium text-white">Progress</p>
+                    <p>✅ {session.progress.completed.length} completed</p>
+                    <p>🔄 {session.progress.inProgress.length} in progress</p>
+                    <p>⏳ {session.progress.pending.length} pending</p>
+                  </div>
+                </div>
               ) : (
-                <button
-                  onClick={startNewSession}
-                  className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm font-medium"
-                >
-                  Start New Session
-                </button>
+                !loading && (
+                  <p className="text-xs text-gray-400">
+                    No session loaded. Create one below or enter a session ID.
+                  </p>
+                )
               )}
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* AI Team Status */}
-        <div className="lg:col-span-1">
-          <div className="bg-gray-800 rounded-lg p-4 mb-6">
-            <h2 className="text-lg font-semibold mb-4">🎭 AI Team</h2>
-            <div className="space-y-3">
-              {Object.entries(AI_PROFILES).map(([key, profile]) => (
-                <div
-                  key={key}
-                  className={cn(
-                    "p-3 rounded-lg cursor-pointer transition-colors",
-                    filter === key ? profile.color : "bg-gray-700 hover:bg-gray-600"
-                  )}
-                  onClick={() => setFilter(filter === key ? 'all' : key)}
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg">{profile.emoji}</span>
-                    <span className="font-medium">{profile.name}</span>
-                  </div>
-                  <div className="text-xs text-gray-300">{profile.role}</div>
-                  <div className="text-xs text-gray-400 mt-1">{profile.description}</div>
-                </div>
-              ))}
+          <div className="rounded-lg border border-white/10 bg-white/5 p-4">
+            <h2 className="text-lg font-medium text-white">Create Session</h2>
+            <div className="mt-3 space-y-3 text-sm">
+              <label className="block">
+                <span className="text-gray-300">Feature</span>
+                <input
+                  value={newFeature}
+                  onChange={(event) => setNewFeature(event.target.value)}
+                  className="mt-1 w-full rounded-md border border-white/20 bg-black/50 px-3 py-2 text-sm text-white"
+                  placeholder="Feature or project name"
+                />
+              </label>
+              <label className="block">
+                <span className="text-gray-300">Goals (separate with semicolons)</span>
+                <textarea
+                  value={newGoals}
+                  onChange={(event) => setNewGoals(event.target.value)}
+                  rows={3}
+                  className="mt-1 w-full rounded-md border border-white/20 bg-black/50 px-3 py-2 text-sm text-white"
+                  placeholder="Example: Define roadmap;Implement demo presenter"
+                />
+              </label>
+              <button
+                onClick={handleCreateSession}
+                disabled={creatingSession}
+                className="rounded-md bg-emerald-500 px-3 py-2 text-sm font-medium text-black hover:bg-emerald-400 disabled:opacity-60"
+              >
+                {creatingSession ? 'Creating…' : 'Start New Session'}
+              </button>
             </div>
           </div>
+        </section>
 
-          {/* Session Status */}
-          {sessionStatus && (
-            <div className="bg-gray-800 rounded-lg p-4">
-              <h3 className="font-semibold mb-2">📊 Session Status</h3>
-              <div className="text-sm space-y-2">
-                <div><span className="text-gray-400">Feature:</span> {sessionStatus.feature}</div>
-                <div><span className="text-gray-400">Participants:</span> {sessionStatus.participants.join(', ')}</div>
-                <div><span className="text-gray-400">Messages:</span> {sessionStatus.messageCount}</div>
-                <div><span className="text-gray-400">Started:</span> {new Date(sessionStatus.startTime).toLocaleTimeString()}</div>
+        <section className="rounded-lg border border-white/10 bg-white/5 p-4">
+          <h2 className="text-lg font-medium text-white">Conversation</h2>
+          {hasSession ? (
+            <div className="mt-3 grid gap-3">
+              <div className="max-h-[360px] overflow-y-auto rounded-md border border-white/10 bg-black/40 p-3 text-sm">
+                {messages.length === 0 ? (
+                  <p className="text-xs text-gray-400">No messages yet. Start the conversation below.</p>
+                ) : (
+                  <ul className="space-y-2">
+                    {messages.map((message, index) => (
+                      <li key={`${message.timestamp}-${index}`} className="rounded-md border border-white/5 bg-white/5 p-2">
+                        <div className="flex items-center justify-between text-xs text-gray-400">
+                          <span className="uppercase text-gray-300">{message.from}</span>
+                          <span>{new Date(message.timestamp).toLocaleString()}</span>
+                        </div>
+                        <div className="mt-1 text-xs text-emerald-300">{message.type}</div>
+                        <p className="mt-2 whitespace-pre-wrap text-sm text-white">{message.content}</p>
+                        {message.codeRef?.file && (
+                          <p className="mt-2 text-xs text-blue-300">
+                            📁 {message.codeRef.file}
+                            {message.codeRef.lines ? ` (lines ${message.codeRef.lines[0]}–${message.codeRef.lines[1]})` : ''}
+                          </p>
+                        )}
+                        {message.codeRef?.suggestion && (
+                          <pre className="mt-2 max-h-40 overflow-y-auto whitespace-pre-wrap rounded bg-black/60 p-2 text-xs text-gray-200">
+                            {message.codeRef.suggestion}
+                          </pre>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-            </div>
-          )}
-        </div>
 
-        {/* Messages */}
-        <div className="lg:col-span-3">
-          <div className="bg-gray-800 rounded-lg h-[80vh] flex flex-col">
-            {/* Messages Header */}
-            <div className="p-4 border-b border-gray-700 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">
-                💬 Live Communication {filter !== 'all' && `- ${AI_PROFILES[filter as keyof typeof AI_PROFILES].name}`}
-              </h2>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setFilter('all')}
-                  className={cn(
-                    "px-3 py-1 rounded text-sm",
-                    filter === 'all' ? "bg-blue-600 text-white" : "bg-gray-600 text-gray-300 hover:bg-gray-500"
-                  )}
-                >
-                  All AIs
-                </button>
-                <label className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={autoScroll}
-                    onChange={(e) => setAutoScroll(e.target.checked)}
-                    className="rounded"
+              <div className="rounded-md border border-white/10 bg-black/40 p-3 text-sm">
+                <div className="grid gap-3">
+                  <div className="flex flex-wrap gap-2">
+                    <label className="flex items-center gap-1 text-xs text-gray-300">
+                      <span>Author</span>
+                      <select
+                        value={messageAuthor}
+                        onChange={(event) => setMessageAuthor(event.target.value as Participant)}
+                        className="rounded-md border border-white/20 bg-black/60 px-2 py-1 text-xs text-white"
+                      >
+                        <option value="chatgpt">chatgpt</option>
+                        <option value="claude">claude</option>
+                        <option value="augment">augment</option>
+                      </select>
+                    </label>
+                    <label className="flex items-center gap-1 text-xs text-gray-300">
+                      <span>Type</span>
+                      <select
+                        value={messageType}
+                        onChange={(event) => setMessageType(event.target.value as CollaborationMessage['type'])}
+                        className="rounded-md border border-white/20 bg-black/60 px-2 py-1 text-xs text-white"
+                      >
+                        {MESSAGE_TYPES.map((type) => (
+                          <option key={type} value={type}>{type}</option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+
+                  <textarea
+                    value={messageText}
+                    onChange={(event) => setMessageText(event.target.value)}
+                    rows={4}
+                    className="w-full rounded-md border border-white/20 bg-black/50 px-3 py-2 text-sm text-white"
+                    placeholder="Share progress, ask a question, or propose a suggestion."
                   />
-                  Auto-scroll
-                </label>
-              </div>
-            </div>
 
-            {/* Messages List */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {filteredMessages.length === 0 ? (
-                <div className="text-center py-12 text-gray-400">
-                  <div className="text-6xl mb-4">🤖</div>
-                  <div className="text-xl mb-2">Waiting for AI collaboration...</div>
-                  <div className="text-sm">
-                    {sessionStatus ? "Messages will appear here as the AIs communicate" : "Start a new session to begin"}
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={handleSendMessage}
+                      disabled={isSending || !messageText.trim()}
+                      className="rounded-md bg-sky-500 px-3 py-2 text-sm font-medium text-black hover:bg-sky-400 disabled:opacity-50"
+                    >
+                      {isSending ? 'Sending…' : 'Send Message'}
+                    </button>
+                    <button
+                      onClick={handleSessionRefresh}
+                      className="rounded-md border border-white/20 px-3 py-2 text-xs font-medium text-white hover:bg-white/10"
+                    >
+                      Refresh
+                    </button>
                   </div>
                 </div>
-              ) : (
-                filteredMessages.map((message) => {
-                  const profile = AI_PROFILES[message.from];
-                  const messageType = MESSAGE_TYPES[message.type as keyof typeof MESSAGE_TYPES] || MESSAGE_TYPES.suggestion;
-
-                  return (
-                    <div key={message.id} className="flex gap-3">
-                      {/* Avatar */}
-                      <div className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0",
-                        profile.color
-                      )}>
-                        <span className="text-lg">{profile.emoji}</span>
-                      </div>
-
-                      {/* Message */}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium">{profile.name}</span>
-                          <span className="text-xs text-gray-400">{profile.role}</span>
-                          <span className="text-xs text-gray-500">
-                            {new Date(message.timestamp).toLocaleTimeString()}
-                          </span>
-                          <span className="text-xs">{messageType.emoji}</span>
-                        </div>
-
-                        <div className={cn(
-                          "p-3 rounded-lg border-l-4",
-                          messageType.color
-                        )}>
-                          <div className="text-gray-800 whitespace-pre-wrap">{message.content}</div>
-
-                          {message.codeRef && (
-                            <div className="mt-2 bg-gray-900 rounded p-2 text-green-400 text-sm font-mono">
-                              {message.codeRef.file && <div className="text-blue-300 mb-1">📁 {message.codeRef.file}</div>}
-                              {message.codeRef.suggestion && <pre className="whitespace-pre-wrap">{message.codeRef.suggestion}</pre>}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-              <div ref={messagesEndRef} />
+              </div>
             </div>
-          </div>
-        </div>
+          ) : (
+            <p className="mt-4 text-sm text-gray-400">
+              Load or create a session to view the conversation.
+            </p>
+          )}
+        </section>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@
       },
       "ctaStart": "Are you ready to start your journey?",
       "video": {
-        "url": "OdeNew1-1",
+        "url": "OdeNew_1",
         "width": 1080,
         "height": 1920,
         "audio": true
@@ -47,7 +47,7 @@
         "subtitle": "You've got your ticket, come, get on the boat"
       },
       "video": {
-        "url": "OdeNew1-2",
+        "url": "OdeNew_2",
         "width": 1080,
         "height": 1920,
         "audio": true
@@ -72,7 +72,7 @@
     },
     {
       "video": {
-        "url": "OdeNew1-3",
+        "url": "OdeNew_3",
         "width": 1080,
         "height": 1920,
         "audio": true
@@ -97,7 +97,7 @@
     },
     {
       "video": {
-        "url": "OdeNew1-4",
+        "url": "OdeNew_4",
         "width": 1080,
         "height": 1920,
         "audio": true
@@ -122,7 +122,7 @@
     },
     {
       "video": {
-        "url": "OdeNew1-5",
+        "url": "OdeNew_5",
         "width": 1080,
         "height": 1920,
         "audio": true
@@ -133,7 +133,7 @@
         "subtitle": "The Nors and Orns fight"
       },
       "video": {
-        "url": "OdeNew1-6",
+        "url": "OdeNew_6",
         "width": 1080,
         "height": 1920,
         "audio": true
@@ -144,7 +144,7 @@
         "subtitle": "You win - adding Orn to Memory Wallet"
       },
       "video": {
-        "url": "OdeNew1-7",
+        "url": "OdeNew_7",
         "width": 1080,
         "height": 1920,
         "audio": true

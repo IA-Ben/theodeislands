@@ -146,8 +146,8 @@ export default function CacheDebugger() {
           <strong>Team Instructions:</strong><br/>
           • Add ?debug=cache to URL to show this panel<br/>
           • Add ?dev=true to force development mode<br/>
-          • Use "ENABLE DEMO" to activate presenter mode<br/>
-          • Use "CLEAR CACHE" if updates are not showing<br/>
+          • Use &quot;ENABLE DEMO&quot; to activate presenter mode<br/>
+          • Use &quot;CLEAR CACHE&quot; if updates are not showing<br/>
           • Demo: Press Shift+D when enabled
         </div>
       </div>
