@@ -132,8 +132,14 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
 
       {/* Content */}
       <div
-        className="relative flex flex-col items-center justify-center h-full px-6 text-center pb-16 sm:pb-0"
-        style={{ mixBlendMode: theme?.mix || undefined }}
+        className="relative flex flex-col items-center justify-center h-full text-center pb-16 sm:pb-0"
+        style={{
+          mixBlendMode: theme?.mix || undefined,
+          maxWidth: video ? `min(100vw, ${(video.width / video.height) * 100}vh)` : '100vw',
+          width: '100%',
+          margin: '0 auto',
+          padding: '0 24px'
+        }}
       >
         {title && (
           <h1
