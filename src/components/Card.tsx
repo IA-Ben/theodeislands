@@ -143,13 +143,15 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
       >
         {title && (
           <h1
-            className="text-7xl sm:text-[14rem] font-bold text-white mb-4 font-sans w-full"
+            className="font-bold text-white mb-4 font-sans w-full"
             style={{
               color: theme?.title || undefined,
               textShadow,
               wordWrap: 'break-word',
               overflowWrap: 'break-word',
               hyphens: 'auto',
+              fontSize: 'clamp(3rem, 12vw, 14rem)',
+              lineHeight: '1.1',
             }}
           >
             <AnimateText active={anim} delay={300}>
@@ -159,12 +161,14 @@ export const Card: React.FC<CardProps> = ({ data, active, forceInitialMute }) =>
         )}
         {subtitle && (
           <h2
-            className="w-full text-4xl sm:text-6xl font-bold text-white mb-4 font-sans"
+            className="w-full font-bold text-white mb-4 font-sans"
             style={{
               color: theme?.subtitle || undefined,
               textShadow,
               wordWrap: 'break-word',
               overflowWrap: 'break-word',
+              fontSize: 'clamp(1.5rem, 5vw, 4rem)',
+              lineHeight: '1.2',
             }}
           >
             <AnimateText active={anim} delay={title ? 600 : 300}>
