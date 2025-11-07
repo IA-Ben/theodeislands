@@ -7,9 +7,10 @@
       },
       "ctaStart": "Begin Journey",
       "video": {
-        "url": "1-crawling",
-        "width": 1920,
-        "height": 1080
+        "url": "OdeNew_8",
+        "width": 1080,
+        "height": 1920,
+        "audio": true
       },
       "theme": {
         "mix": "exclusion",
